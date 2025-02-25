@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Investment Calculator</title>
+    <script>
+        // Function to get CSRF token from the form
+        function getCSRFToken() {
+            return document.getElementById('csrf_token').value;
+        }
+
+        async function calculateProfit(event) {
+            event.preventDefault();
+
+            // Gather form data
+            const monthly_invest = document.getElementById('monthly_invest').value;
+            const roi = document.getElementById('roi').value;
+            const tenure = document.getElementById('tenure').value;
+            const csrfToken = getCSRFToken(); // Get CSRF token from hidden input
+
+            try {
+                // Send data to backend via POST
+                const response = await fetch('/calculate/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': csrfToken, // Include CSRF token in headers
+                    },
+                    body: `monthly_invest=${monthly_invest}&roi=${roi}&tenure=${tenure}`,
+                });
+
+                const result = await response.json();
+
+                // Display result or error
+                if (result.overall_profit) {
+                    document.getElementById('result').value = result.overall_profit;
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            } catch (error) {
+                alert('Request failed: ' + error.message);
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <form id="investmentForm" onsubmit="calculateProfit(event)" method="POST">
+        <!-- CSRF Token for Security -->
+        {% csrf_token %}
+
+        <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
+
+        <label for="monthly_invest">Monthly_Invest:</label>
+        <input type="text" id="monthly_invest" name="monthly_invest" required><br><br>
+
+        <label for="roi">Monthly_Rate_Of_Interest:</label>
+        <input type="text" id="roi" name="roi" required><br><br>
+
+        <label for="tenure">Total_Tenure_In_Months:</label>
+        <input type="text" id="tenure" name="tenure" required><br><br>
+
+        <button type="submit">Submit</button><br><br>
+
+        <label for="result">Over_All_Profit:</label>
+        <input type="text" id="result" name="result" readonly>
+    </form>
+
+</body>
+
+</html>
