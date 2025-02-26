@@ -29,6 +29,6 @@ spec:
     spec:
       containers:
       - name: thirdcontainer
-        image: 637423513260.dkr.ecr.ap-south-1.amazonaws.com/ecr_python_repo:latest5
+        image: 637423513260.dkr.ecr.ap-south-1.amazonaws.com/ecr_python_repo:latest6
         ports:
           - containerPort: 8000
