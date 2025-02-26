@@ -10,10 +10,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the entire project
 COPY . /app/
-COPY compound_interest/manage.py /app/
 RUN ls /app/
 # Expose port 8000 for Django
 EXPOSE 8000
 
 # Run Django migrations and start the server
-ENTRYPOINT ["bash", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+ENTRYPOINT ["bash", "-c", "python /app/compound_interest/manage.py migrate && python /app/compound_interest/manage.py runserver 0.0.0.0:8000"]
