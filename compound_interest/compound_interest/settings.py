@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'compound_interest.wsgi.application'
+WSGI_APPLICATION = 'compound_interest.compound_interest.wsgi.application'
 
 
 # Database
