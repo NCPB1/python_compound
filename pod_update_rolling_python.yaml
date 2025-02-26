@@ -1,0 +1,34 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: mydeployment
+  labels:
+    envt: dev
+    tier: backend
+spec:
+  replicas: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 2
+  selector:
+    matchExpressions:
+      - key: envt
+        operator: In
+        values:
+          - dev
+          - prod
+      - key: tier
+        operator: Exists
+  template:
+    metadata:
+      labels:
+        envt: dev
+        tier: backend
+    spec:
+      containers:
+      - name: thirdcontainer
+        image: 637423513260.dkr.ecr.ap-south-1.amazonaws.com/ecr_repo:latest5
+        ports:
+          - containerPort: 80
