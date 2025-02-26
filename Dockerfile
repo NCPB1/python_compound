@@ -10,6 +10,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the entire project
 COPY . /app/
+COPY compound_interest/manage.py /app/manage.py
 RUN ls /app/
 
 # Expose port 8000 for Django
