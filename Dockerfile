@@ -15,4 +15,4 @@ RUN ls /app/
 EXPOSE 8000
 
 # Run Django migrations and start the server
-ENTRYPOINT ["bash", "-c", "python /app/manage.py migrate && python /app/manage.py runserver 0.0.0.0:8000"]
+ENTRYPOINT ["bash", "-c", "cd /app && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
